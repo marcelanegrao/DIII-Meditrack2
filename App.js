@@ -18,8 +18,8 @@ import MedicamentoForm from './src/components/MedicamentoForm';
 
 // --- CONFIGURAÇÃO DA API ---
 // Sua URL do Codespace, ajustada (sem a barra final)
-const API_URL = 'https://cuddly-halibut-97j7jqx45pgq395wq-3000.app.github.dev'; 
-
+const API_URL = 'https://cuddly-halibut-97j7jqx45pgq395wq-3000.app.github.dev/'; 
+//https://cuddly-halibut-97j7jqx45pgq395wq-3000.app.github.dev/
 export default function App() {
   const [medicamentos, setMedicamentos] = useState([]);
   const [loading, setLoading] = useState(true);
