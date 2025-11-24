@@ -4,7 +4,7 @@ import axios from 'axios';
 
 // O componente Formulario será um modal que recebe funções por prop
 // Recebe medicamentoToEdit para saber se está no modo edição
-const medicamentoForm = ({ isVisible, onClose, onSaveSuccess, API_URL, medicamentoToEdit }) => {
+const MedicamentoForm = ({ isVisible, onClose, onSaveSuccess, API_URL, medicamentoToEdit }) => {
   // Inicializa os estados com base no item de edição, se existir
   const [nome, setNome] = useState(medicamentoToEdit ? medicamentoToEdit.nome : '');
   const [dosagem, setDosagem] = useState(medicamentoToEdit ? medicamentoToEdit.dosagem : '');
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default medicamentoForm;
+export default MedicamentoForm;

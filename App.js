@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 
 // Importa o componente que você criou
-import medicamentoForm from './src/components/medicamentoForm.js'; 
+import MedicamentoForm from './src/components/MedicamentoForm.js'; 
 
 // --- CONFIGURAÇÃO DA API ---
 // Sua URL do Codespace, ajustada (sem a barra final)
@@ -165,7 +165,7 @@ export default function App() {
       </TouchableOpacity>
 
       {/* Componente Modal de Cadastro/Edição */}
-      <medicamentoForm
+      <MedicamentoForm
         isVisible={isModalVisible}
         onClose={closeModal} // Fecha e limpa o estado de edição
         onSaveSuccess={onRefresh} 
