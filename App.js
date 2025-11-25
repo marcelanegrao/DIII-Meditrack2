@@ -9,15 +9,12 @@ import {
   StatusBar,
   Alert,
   RefreshControl,
-  TouchableOpacity // Necessário para o Botão Flutuante (FAB) e botões de ação
+  TouchableOpacity
 } from 'react-native';
 import axios from 'axios';
-
-// Importa o componente que você criou
 import MedicamentoForm from './src/components/MedicamentoForm.js'; 
 
-// --- CONFIGURAÇÃO DA API ---
-// Sua URL do Codespace, ajustada (sem a barra final)
+// ATENÇÃO: Verifique se essa URL ainda é válida no seu Codespaces (Porta pública)
 const API_URL = 'https://cuddly-halibut-97j7jqx45pgq395wq-3000.app.github.dev'; 
 
 export default function App() {
@@ -25,11 +22,8 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false); 
-  
-  // NOVO ESTADO: Armazena o objeto do medicamento sendo editado
   const [medicamentoToEdit, setMedicamentoToEdit] = useState(null); 
 
-  // --- FUNÇÃO PARA BUSCAR DADOS (READ) ---
   const fetchMedicamentos = async () => {
     try {
       const response = await axios.get(`${API_URL}/medicamentos`);
@@ -43,32 +37,25 @@ export default function App() {
     }
   };
 
-  // Carrega os dados assim que o App abre
   useEffect(() => {
     fetchMedicamentos();
   }, []);
 
-  // Função para recarregar ao puxar a lista para baixo (usada no onSaveSuccess também)
   const onRefresh = () => {
     setRefreshing(true);
     fetchMedicamentos();
   };
   
-  // --- FUNÇÕES DE CONTROLE DO MODAL ---
-  
-  // Função para abrir o modal em modo de Edição (UPDATE)
   const openEditModal = (item) => {
-    setMedicamentoToEdit(item); // Carrega os dados do item
-    setIsModalVisible(true); // Abre o modal
+    setMedicamentoToEdit(item); 
+    setIsModalVisible(true); 
   };
 
-  // Função para fechar o Modal (Geral)
   const closeModal = () => {
     setIsModalVisible(false);
-    setMedicamentoToEdit(null); // Limpa o estado de edição ao fechar
+    setMedicamentoToEdit(null); 
   };
 
-  // --- FUNÇÃO PARA DELETAR DADOS (DELETE) ---
   const handleDelete = (id) => {
     Alert.alert(
       "Confirmar Exclusão",
@@ -79,12 +66,8 @@ export default function App() {
           text: "Excluir",
           onPress: async () => {
             try {
-              // Faz a chamada DELETE para /medicamentos/:id
               await axios.delete(`${API_URL}/medicamentos/${id}`);
-              
-              // Se a exclusão for bem-sucedida, recarrega a lista
               fetchMedicamentos(); 
-
               Alert.alert("Sucesso", "Medicamento excluído.");
             } catch (error) {
               console.error("Erro ao deletar:", error);
@@ -97,8 +80,6 @@ export default function App() {
     );
   };
 
-
-  // --- COMPONENTE DE ITEM DA LISTA ---
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <View style={styles.cardHeader}>
@@ -107,18 +88,17 @@ export default function App() {
       </View>
       <Text style={styles.medDosagem}>Dosagem: {item.dosagem}</Text>
       
-      {/* Botões de Ação */}
       <View style={styles.actionButtons}> 
         <TouchableOpacity 
           style={[styles.actionButton, styles.editButton]}
-          onPress={() => openEditModal(item)} // Chama a função de edição
+          onPress={() => openEditModal(item)}
         >
           <Text style={styles.actionText}>Editar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[styles.actionButton, styles.deleteButton]}
-          onPress={() => handleDelete(item.id)} // Chama a função de exclusão
+          onPress={() => handleDelete(item.id)}
         >
           <Text style={styles.actionText}>Excluir</Text>
         </TouchableOpacity>
@@ -126,10 +106,8 @@ export default function App() {
     </View>
   );
 
-  // --- RENDERIZAÇÃO DA TELA ---
   return (
     <SafeAreaView style={styles.container}>
-      
       <StatusBar barStyle="dark-content" backgroundColor="#f0f2f5" />
       
       <View style={styles.header}>
@@ -144,39 +122,33 @@ export default function App() {
           keyExtractor={(item) => String(item.id)}
           renderItem={renderItem}
           contentContainerStyle={styles.listContent}
-          // Configuração do "Pull to Refresh"
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          // Mostra isso se a lista estiver vazia
           ListEmptyComponent={
             <Text style={styles.emptyText}>Nenhum medicamento cadastrado. Clique no '+' para adicionar.</Text>
           }
         />
       )}
       
-      {/* Botão Flutuante (FAB) para Abrir o Cadastro */}
       <TouchableOpacity 
         style={styles.fab}
-        // Ao clicar, garante que o modo de edição está nulo antes de abrir
         onPress={() => { setMedicamentoToEdit(null); setIsModalVisible(true); }} 
       >
         <Text style={styles.fabText}>+</Text>
       </TouchableOpacity>
 
-      {/* Componente Modal de Cadastro/Edição */}
       <MedicamentoForm
         isVisible={isModalVisible}
-        onClose={closeModal} // Fecha e limpa o estado de edição
+        onClose={closeModal} 
         onSaveSuccess={onRefresh} 
         API_URL={API_URL} 
-        medicamentoToEdit={medicamentoToEdit} // Passa o item para o formulário
+        medicamentoToEdit={medicamentoToEdit} 
       />
     </SafeAreaView>
   );
 }
 
-// --- ESTILOS (CSS in JS) ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -238,7 +210,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#999',
   },
-  // ESTILOS: FAB (Botão Flutuante)
   fab: {
     position: 'absolute',
     width: 60,
@@ -256,7 +227,6 @@ const styles = StyleSheet.create({
     color: 'white',
     lineHeight: 30,
   },
-  // NOVOS ESTILOS: Botões de Ação do Card
   actionButtons: {
     flexDirection: 'row',
     marginTop: 10,
@@ -269,10 +239,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   editButton: {
-    backgroundColor: '#ffc107', // Amarelo
+    backgroundColor: '#ffc107', 
   },
   deleteButton: {
-    backgroundColor: '#dc3545', // Vermelho
+    backgroundColor: '#dc3545', 
   },
   actionText: {
     color: '#fff',
