@@ -1,4 +1,4 @@
-# MEDITRACK: Gerenciador de Medicamentos
+# MEDITRACK: Gerenciador de Medicamentos (Front-end)
 Este é um aplicativo mobile simples de gerenciamento de medicamentos, com funcionalidades de Cadastro (Create), Visualização (Read), Atualização (Update) e Exclusão (Delete).
 
 Tecnologias
